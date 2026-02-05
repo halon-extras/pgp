@@ -107,8 +107,8 @@ It will return an associative array with a `result` (boolean). If `false`, a `er
 ```
 import { pgp_sign, pgp_verify, pgp_encrypt, pgp_decrypt } from "extras://pgp";
 
-import $pubkeyring from "txt!test.pub.asc";
-import $privkeyring from "txt!test.priv.asc";
+import $pubkeyring from "txt!user1.pub.asc";
+import $privkeyring from "txt!user1.priv.asc";
 
 $message = "Hello World";
 
