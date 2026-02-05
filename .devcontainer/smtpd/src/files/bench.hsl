@@ -1,0 +1,14 @@
+import { pgp_sign, pgp_verify, pgp_encrypt, pgp_decrypt } from "extras://pgp";
+
+import $pubkeyring from "txt!user1.pub.asc";
+import $privkeyring from "txt!user1.priv.asc";
+
+$message = "Hello World";
+
+$time = time();
+for ($i = 1; $i <= 100; $i++) {
+    $encrypted = pgp_encrypt($message, [$pubkeyring], [$privkeyring], ["profile" => "default", "detached" => true]);
+    $result = pgp_decrypt($encrypted["data"], [$privkeyring], [$pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
+}
+$time = time() - $time;
+echo $time;

@@ -1,0 +1,259 @@
+resolver:
+  cache:
+    size: 10000
+scripting:
+  files:
+  - data: |
+      -----BEGIN PGP PRIVATE KEY BLOCK-----
+
+      lFgEaYRHARYJKwYBBAHaRw8BAQdAI559Fx66zS8Qdam+UfCBHEf4viHg3OfrExp0
+      UbSZUrAAAQC9BllYUdZoJ83ILJxPknzi6nxo5j5vxWy1j/WzKHCyvhFNtB9Kb2hu
+      IERvZSA8am9obi5kb2VAZXhhbXBsZS5jb20+iJMEExYKADsWIQRYL8RzVFx+uPEa
+      ZT4INmiI0hDmrQUCaYRHAQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAK
+      CRAINmiI0hDmrY73AP4jU0eBtRAuaVuJyEjopT6W7GknisfGtd1hBCiXuWpGjgD8
+      CIlbwDyMciRgDOjNwNVH8JZVEvzH93nRj3Fprdy6wQ2cXQRphEcBEgorBgEEAZdV
+      AQUBAQdAmf+HBgZUqnOe8a4fINS0C9TKLWSNKMUdU6pH3bmmGEMDAQgHAAD/VX+n
+      Q7jHNl8dpKle8iS50sT8vHUJUZFcp7rDOTKsU1ARUIh4BBgWCgAgFiEEWC/Ec1Rc
+      frjxGmU+CDZoiNIQ5q0FAmmERwECGwwACgkQCDZoiNIQ5q110wD/TyOgTlE+dj9F
+      tFHOTpcadlXZIyDZEgjZv7WpDH9SSJgBAP+VLQe7rnSrS8XHH6K3E6trhXsNhFdV
+      4M+v7Hz6+60IlFgEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKG
+      cGroexC+HvTfD+83WeQAAP9DzJmKpcr/75iZUlNEg/QOmWJ6tCHr5mtG8EYFVMqk
+      3BLStB9KYW5lIERvZSA8amFuZS5kb2VAZXhhbXBsZS5jb20+iJMEExYKADsWIQSy
+      3Irtz7dfjN97kRzxpfip/1wkGgUCaYRHMwIbAwULCQgHAgIiAgYVCgkICwIEFgID
+      AQIeBwIXgAAKCRDxpfip/1wkGs5uAPwPIV6wsEZ03QIduSK7ibR+kjZ5Y850FzNy
+      VIOj2MetTAEAqPcqOdL4wFFxO2Ay0qaBfIprV8WrqxF/5dmMr3POGwKcXQRphEcz
+      EgorBgEEAZdVAQUBAQdAt4WBvknLM5MsPNw5FA/YysBSaBpexkdDE/HXQDnfsl8D
+      AQgHAAD/UCnHL6xIj6xpB6pODerYzsxXZm0nuZR2+aXiGJpcHGAQjIh4BBgWCgAg
+      FiEEstyK7c+3X4zfe5Ec8aX4qf9cJBoFAmmERzMCGwwACgkQ8aX4qf9cJBoJGQD/
+      csjFKUNFnrfyYJKwbxwuWUQSV8Y6NNucS+4nwAD/D3kA/RkxgteJj+NpF1sCIr8X
+      tf9xhyC3FgADyESm0PcK7f4O
+      =aoFt
+      -----END PGP PRIVATE KEY BLOCK-----
+    id: all.priv.asc
+  - data: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      mDMEaYRHARYJKwYBBAHaRw8BAQdAI559Fx66zS8Qdam+UfCBHEf4viHg3OfrExp0
+      UbSZUrC0H0pvaG4gRG9lIDxqb2huLmRvZUBleGFtcGxlLmNvbT6IkwQTFgoAOxYh
+      BFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEAg2aIjSEOatjvcA/iNTR4G1EC5pW4nISOilPpbsaSeKx8a1
+      3WEEKJe5akaOAPwIiVvAPIxyJGAM6M3A1UfwllUS/Mf3edGPcWmt3LrBDbg4BGmE
+      RwESCisGAQQBl1UBBQEBB0CZ/4cGBlSqc57xrh8g1LQL1MotZI0oxR1TqkfduaYY
+      QwMBCAeIeAQYFgoAIBYhBFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsMAAoJ
+      EAg2aIjSEOatddMA/08joE5RPnY/RbRRzk6XGnZV2SMg2RII2b+1qQx/UkiYAQD/
+      lS0Hu650q0vFxx+itxOra4V7DYRXVeDPr+x8+vutCJgzBGmERzMWCSsGAQQB2kcP
+      AQEHQHsrNRzm4dU/+djMnpp10kgShnBq6HsQvh703w/vN1nktB9KYW5lIERvZSA8
+      amFuZS5kb2VAZXhhbXBsZS5jb20+iJMEExYKADsWIQSy3Irtz7dfjN97kRzxpfip
+      /1wkGgUCaYRHMwIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAKCRDxpfip
+      /1wkGs5uAPwPIV6wsEZ03QIduSK7ibR+kjZ5Y850FzNyVIOj2MetTAEAqPcqOdL4
+      wFFxO2Ay0qaBfIprV8WrqxF/5dmMr3POGwK4OARphEczEgorBgEEAZdVAQUBAQdA
+      t4WBvknLM5MsPNw5FA/YysBSaBpexkdDE/HXQDnfsl8DAQgHiHgEGBYKACAWIQSy
+      3Irtz7dfjN97kRzxpfip/1wkGgUCaYRHMwIbDAAKCRDxpfip/1wkGgkZAP9yyMUp
+      Q0Wet/JgkrBvHC5ZRBJXxjo025xL7ifAAP8PeQD9GTGC14mP42kXWwIivxe1/3GH
+      ILcWAAPIRKbQ9wrt/g4=
+      =5ivZ
+      -----END PGP PUBLIC KEY BLOCK-----
+    id: all.pub.asc
+  - data: |
+      import { pgp_sign, pgp_verify, pgp_encrypt, pgp_decrypt } from "extras://pgp";
+
+      import $pubkeyring from "txt!user1.pub.asc";
+      import $privkeyring from "txt!user1.priv.asc";
+
+      $message = "Hello World";
+
+      $time = time();
+      for ($i = 1; $i <= 100; $i++) {
+          $encrypted = pgp_encrypt($message, [$pubkeyring], [$privkeyring], ["profile" => "default", "detached" => true]);
+          $result = pgp_decrypt($encrypted["data"], [$privkeyring], [$pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
+      }
+      $time = time() - $time;
+      echo $time;
+    id: bench.hsl
+  - data: |-
+      import { pgp_sign, pgp_verify, pgp_encrypt, pgp_decrypt } from "extras://pgp";
+
+      import $allpubkeyring from "txt!all.pub.asc";
+      import $allprivkeyring from "txt!all.priv.asc";
+      import $user1pubkeyring from "txt!user1.pub.asc";
+      import $user1privkeyring from "txt!user1.priv.asc";
+      import $user2pubkeyring from "txt!user2.pub.asc";
+      import $user2privkeyring from "txt!user2.priv.asc";
+
+      $message = "Hello World";
+
+      // Test 1 (Sign & Verify (Inline))
+      $expect = ["result"=>true,"data"=>"Hello World"];
+
+      $signed = pgp_sign($message, [$user1privkeyring]);
+      $result = pgp_verify($signed["data"], [$user1pubkeyring]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 1 (Sign & Verify (Inline)): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 1 (Sign & Verify (Inline)):\t\t\tOK";
+
+      // Test 2 (Sign & Verify (Detached))
+      $expect = ["result"=>true];
+
+      $signed = pgp_sign($message, [$user1privkeyring], ["detached" => true]);
+      $result = pgp_verify($message, [$user1pubkeyring], ["signature" => $signed["data"]]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 2 (Sign & Verify (Detached)): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 2 (Sign & Verify (Detached)):\t\t\tOK";
+
+      // Test 3 (Encrypt & Decrypt)
+      $expect = ["result"=>true,"data"=>"Hello World"];
+
+      $encrypted = pgp_encrypt($message, [$user1pubkeyring], none, ["profile" => "default"]);
+      $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], none, ["profile" => "default"]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 3 (Encrypt & Decrypt): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 3 (Encrypt & Decrypt):\t\t\t\tOK";
+
+      // Test 4 (Encrypt & Decrypt + Verify)
+      $expect = ["result"=>true, "data"=>"Hello World"];
+
+      $encrypted = pgp_encrypt($message, [$user1pubkeyring], [$user1privkeyring], ["profile" => "default"]);
+      $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], [$user1pubkeyring], ["profile" => "default"]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 4 (Encrypt & Decrypt + Verify): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 4 (Encrypt & Decrypt + Verify):\t\t\tOK";
+
+      // Test 5 (Encrypt & Decrypt + Verify (Detached))
+      $expect = ["result"=>true, "data"=>"Hello World"];
+
+      $encrypted = pgp_encrypt($message, [$user1pubkeyring], [$user1privkeyring], ["profile" => "default", "detached" => true]);
+      $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], [$user1pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 5 (Encrypt & Decrypt + Verify (Detached)): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 5 (Encrypt & Decrypt + Verify (Detached)):\t\tOK";
+
+      // Test 6 (Sign & Verify (No matching signature))
+      $expect = ["result"=>false,"error"=>"Signature Verification Error: No matching signature"];
+
+      $signed = pgp_sign($message, [$user1privkeyring]);
+      $result = pgp_verify($signed["data"], [$user2pubkeyring]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 6 (Sign & Verify (No matching signature)): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 6 (Sign & Verify (No matching signature)):\t\tOK";
+
+      // Test 7 (Encrypt & Decrypt (Multiple keys))
+      $expect = ["result"=>true, "data"=>"Hello World"];
+
+      $encrypted = pgp_encrypt($message, [$user1pubkeyring, $user2pubkeyring], [$user1privkeyring, $user2privkeyring], ["profile" => "default"]);
+      $result = pgp_decrypt($encrypted["data"], [$user1privkeyring, $user2privkeyring], [$user1pubkeyring, $user2pubkeyring], ["profile" => "default"]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 7 (Encrypt & Decrypt (Multiple keys)): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 7 (Encrypt & Decrypt (Multiple keys)):\t\tOK";
+
+      // Test 8 (Sign with wrong type of key)
+      $expect = ["result"=>false,"error"=>"gopenpgp: signing entity does not contain unencrypted private key"];
+
+      $result = pgp_sign($message, [$user1pubkeyring]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 8 (Sign with wrong type of key): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 8 (Sign with wrong type of key):\t\t\tOK";
+
+      // Test 9 (Encrypt & Decrypt (Multiple keys in same ring))
+      $expect = ["result"=>true, "data"=>"Hello World"];
+
+      $encrypted = pgp_encrypt($message, [$allpubkeyring], [$allprivkeyring], ["profile" => "default"]);
+      $result = pgp_decrypt($encrypted["data"], [$allprivkeyring], [$allpubkeyring], ["profile" => "default"]);
+
+      if (json_encode($result) !== json_encode($expect))
+          throw Exception("Test 9 (Encrypt & Decrypt (Multiple keys in same ring)): FAILED\nRESULT($result)\nEXPECT($expect)");
+      echo "Test 9 (Encrypt & Decrypt (Multiple keys in same ring)):OK";
+    id: test.hsl
+  - data: |
+      -----BEGIN PGP PRIVATE KEY BLOCK-----
+
+      lFgEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeQAAP9DzJmKpcr/75iZUlNEg/QOmWJ6tCHr5mtG8EYFVMqk3BLStB9KYW5l
+      IERvZSA8amFuZS5kb2VAZXhhbXBsZS5jb20+iJMEExYKADsWIQSy3Irtz7dfjN97
+      kRzxpfip/1wkGgUCaYRHMwIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAK
+      CRDxpfip/1wkGs5uAPwPIV6wsEZ03QIduSK7ibR+kjZ5Y850FzNyVIOj2MetTAEA
+      qPcqOdL4wFFxO2Ay0qaBfIprV8WrqxF/5dmMr3POGwKcXQRphEczEgorBgEEAZdV
+      AQUBAQdAt4WBvknLM5MsPNw5FA/YysBSaBpexkdDE/HXQDnfsl8DAQgHAAD/UCnH
+      L6xIj6xpB6pODerYzsxXZm0nuZR2+aXiGJpcHGAQjIh4BBgWCgAgFiEEstyK7c+3
+      X4zfe5Ec8aX4qf9cJBoFAmmERzMCGwwACgkQ8aX4qf9cJBoJGQD/csjFKUNFnrfy
+      YJKwbxwuWUQSV8Y6NNucS+4nwAD/D3kA/RkxgteJj+NpF1sCIr8Xtf9xhyC3FgAD
+      yESm0PcK7f4O
+      =2/el
+      -----END PGP PRIVATE KEY BLOCK-----
+    id: user1.priv.asc
+  - data: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      mDMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeS0H0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT6IkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bArg4BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAeIeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =rCCc
+      -----END PGP PUBLIC KEY BLOCK-----
+    id: user1.pub.asc
+  - data: |
+      -----BEGIN PGP PRIVATE KEY BLOCK-----
+
+      lFgEaYRHARYJKwYBBAHaRw8BAQdAI559Fx66zS8Qdam+UfCBHEf4viHg3OfrExp0
+      UbSZUrAAAQC9BllYUdZoJ83ILJxPknzi6nxo5j5vxWy1j/WzKHCyvhFNtB9Kb2hu
+      IERvZSA8am9obi5kb2VAZXhhbXBsZS5jb20+iJMEExYKADsWIQRYL8RzVFx+uPEa
+      ZT4INmiI0hDmrQUCaYRHAQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAK
+      CRAINmiI0hDmrY73AP4jU0eBtRAuaVuJyEjopT6W7GknisfGtd1hBCiXuWpGjgD8
+      CIlbwDyMciRgDOjNwNVH8JZVEvzH93nRj3Fprdy6wQ2cXQRphEcBEgorBgEEAZdV
+      AQUBAQdAmf+HBgZUqnOe8a4fINS0C9TKLWSNKMUdU6pH3bmmGEMDAQgHAAD/VX+n
+      Q7jHNl8dpKle8iS50sT8vHUJUZFcp7rDOTKsU1ARUIh4BBgWCgAgFiEEWC/Ec1Rc
+      frjxGmU+CDZoiNIQ5q0FAmmERwECGwwACgkQCDZoiNIQ5q110wD/TyOgTlE+dj9F
+      tFHOTpcadlXZIyDZEgjZv7WpDH9SSJgBAP+VLQe7rnSrS8XHH6K3E6trhXsNhFdV
+      4M+v7Hz6+60I
+      =3Nx+
+      -----END PGP PRIVATE KEY BLOCK-----
+    id: user2.priv.asc
+  - data: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      mDMEaYRHARYJKwYBBAHaRw8BAQdAI559Fx66zS8Qdam+UfCBHEf4viHg3OfrExp0
+      UbSZUrC0H0pvaG4gRG9lIDxqb2huLmRvZUBleGFtcGxlLmNvbT6IkwQTFgoAOxYh
+      BFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEAg2aIjSEOatjvcA/iNTR4G1EC5pW4nISOilPpbsaSeKx8a1
+      3WEEKJe5akaOAPwIiVvAPIxyJGAM6M3A1UfwllUS/Mf3edGPcWmt3LrBDbg4BGmE
+      RwESCisGAQQBl1UBBQEBB0CZ/4cGBlSqc57xrh8g1LQL1MotZI0oxR1TqkfduaYY
+      QwMBCAeIeAQYFgoAIBYhBFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsMAAoJ
+      EAg2aIjSEOatddMA/08joE5RPnY/RbRRzk6XGnZV2SMg2RII2b+1qQx/UkiYAQD/
+      lS0Hu650q0vFxx+itxOra4V7DYRXVeDPr+x8+vutCA==
+      =CEjA
+      -----END PGP PUBLIC KEY BLOCK-----
+    id: user2.pub.asc
+servers:
+- id: default
+  transport: mx
+transportgroups:
+- dsn:
+    transport: mx
+  id: default
+  retry:
+    count: 30
+    intervals:
+    - interval: 60
+    - interval: 900
+    - interval: 3600
+      notify: true
+    - interval: 7200
+    - interval: 10800
+  transports:
+  - id: mx
+    session:
+      tls:
+        mode: dane
+version: '6.0'
