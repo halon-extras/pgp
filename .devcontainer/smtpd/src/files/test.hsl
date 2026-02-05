@@ -39,25 +39,25 @@ if (json_encode($result) !== json_encode($expect))
     throw Exception("Test 3 (Encrypt & Decrypt): FAILED\nRESULT($result)\nEXPECT($expect)");
 echo "Test 3 (Encrypt & Decrypt):\t\t\t\tOK";
 
-// Test 4 (Encrypt & Decrypt + Verify)
+// Test 4 (Sign + Encrypt & Decrypt + Verify)
 $expect = ["result"=>true, "data"=>"Hello World"];
 
 $encrypted = pgp_encrypt($message, [$user1pubkeyring], [$user1privkeyring], ["profile" => "default"]);
 $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], [$user1pubkeyring], ["profile" => "default"]);
 
 if (json_encode($result) !== json_encode($expect))
-    throw Exception("Test 4 (Encrypt & Decrypt + Verify): FAILED\nRESULT($result)\nEXPECT($expect)");
-echo "Test 4 (Encrypt & Decrypt + Verify):\t\t\tOK";
+    throw Exception("Test 4 (Sign + Encrypt & Decrypt + Verify): FAILED\nRESULT($result)\nEXPECT($expect)");
+echo "Test 4 (Sign + Encrypt & Decrypt + Verify):\t\tOK";
 
-// Test 5 (Encrypt & Decrypt + Verify (Detached))
+// Test 5 (Sign + Encrypt & Decrypt + Verify (Detached))
 $expect = ["result"=>true, "data"=>"Hello World"];
 
 $encrypted = pgp_encrypt($message, [$user1pubkeyring], [$user1privkeyring], ["profile" => "default", "detached" => true]);
 $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], [$user1pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
 
 if (json_encode($result) !== json_encode($expect))
-    throw Exception("Test 5 (Encrypt & Decrypt + Verify (Detached)): FAILED\nRESULT($result)\nEXPECT($expect)");
-echo "Test 5 (Encrypt & Decrypt + Verify (Detached)):\t\tOK";
+    throw Exception("Test 5 (Sign + Encrypt & Decrypt + Verify (Detached)): FAILED\nRESULT($result)\nEXPECT($expect)");
+echo "Test 5 (Sign + Encrypt & Decrypt + Verify (Detached)):\tOK";
 
 // Test 6 (Sign & Verify (No matching signature))
 $expect = ["result"=>false,"error"=>"Signature Verification Error: No matching signature"];

@@ -127,12 +127,12 @@ $encrypted = pgp_encrypt($message, [$pubkeyring], none, ["profile" => "default"]
 $result = pgp_decrypt($encrypted["data"], [$privkeyring], none, ["profile" => "default"]);
 echo $result; // ["result"=>true,"data"=>"Hello World"]
 
-// Encrypt & Decrypt + Verify
+// Sign + Encrypt & Decrypt + Verify
 $encrypted = pgp_encrypt($message, [$pubkeyring], [$privkeyring], ["profile" => "default"]);
 $result = pgp_decrypt($encrypted["data"], [$privkeyring], [$pubkeyring], ["profile" => "default"]);
 echo $result; // ["result"=>true,"data"=>"Hello World"]
 
-// Encrypt & Decrypt + Verify (Detached)
+// Sign + Encrypt & Decrypt + Verify (Detached)
 $encrypted = pgp_encrypt($message, [$pubkeyring], [$privkeyring], ["profile" => "default", "detached" => true]);
 $result = pgp_decrypt($encrypted["data"], [$privkeyring], [$pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
 echo $result; // ["result"=>true,"data"=>"Hello World"]
