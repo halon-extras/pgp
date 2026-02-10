@@ -76,7 +76,7 @@
             ]
         },
         "returnType": "array",
-        "detail": "pgp_encrypt(string $message, array $pubkeyrings, array $privkeyrings [, array $options]): array",
+        "detail": "pgp_encrypt(string $message, array $pubkeyrings [, array $privkeyrings [, array $options]]): array",
         "value": "pgp_encrypt($0)",
         "documentation": "PGP encrypt a message. Invalid or missing arguments will case an exception to be thrown.",
         "link": "[Full documentation](https://github.com/halon-extras/pgp)"
@@ -106,7 +106,7 @@
             ]
         },
         "returnType": "array",
-        "detail": "pgp_decrypt(string $message, array $privkeyrings, array $pubkeyrings [, array $options]): array",
+        "detail": "pgp_decrypt(string $message, array $privkeyrings [, array $pubkeyrings [, array $options]]): array",
         "value": "pgp_decrypt($0)",
         "documentation": "PGP decrypt a message. Invalid or missing arguments will case an exception to be thrown.",
         "link": "[Full documentation](https://github.com/halon-extras/pgp)"
