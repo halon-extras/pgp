@@ -64,7 +64,7 @@ The following options are available in the **options** array.
 
 It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the verified message is set.
 
-### pgp_encrypt(message, pubkeyrings [, privkeyrings, options])
+### pgp_encrypt(message, pubkeyrings [, privkeyrings [, options]])
 
 PGP encrypt a message. Invalid or missing arguments will case an exception to be thrown.
 
@@ -83,7 +83,7 @@ The following options are available in the **options** array.
 
 It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the encrypted message is set.
 
-### pgp_decrypt(message, privkeyrings [, pubkeyrings, options])
+### pgp_decrypt(message, privkeyrings [, pubkeyrings [, options]])
 
 PGP decrypt a message. Invalid or missing arguments will case an exception to be thrown.
 
