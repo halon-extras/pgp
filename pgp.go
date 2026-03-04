@@ -7,6 +7,7 @@ package main
 import "C"
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"unsafe"
 
@@ -162,8 +163,21 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 			SetReturnValueKeyToString(ret, "error", err.Error())
 			return
 		}
+		signers := []string{}
+		for _, sig := range result.Signatures {
+			if sig == nil || sig.SignedBy == nil {
+				continue
+			}
+			signer, err := sig.SignedBy.GetArmoredPublicKey()
+			if err != nil {
+				SetReturnValueKeyToBool(ret, "result", false)
+				SetReturnValueKeyToString(ret, "error", err.Error())
+			}
+			signers = append(signers, signer)
+		}
 
 		SetReturnValueKeyToBool(ret, "result", true)
+		SetReturnValueKeyToAny(ret, "signers", signers)
 	} else {
 		result, err := handle.VerifyInline([]byte(message), crypto.Armor)
 		if err != nil {
@@ -176,9 +190,22 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 			SetReturnValueKeyToString(ret, "error", err.Error())
 			return
 		}
+		signers := []string{}
+		for _, sig := range result.Signatures {
+			if sig == nil || sig.SignedBy == nil {
+				continue
+			}
+			signer, err := sig.SignedBy.GetArmoredPublicKey()
+			if err != nil {
+				SetReturnValueKeyToBool(ret, "result", false)
+				SetReturnValueKeyToString(ret, "error", err.Error())
+			}
+			signers = append(signers, signer)
+		}
 
 		SetReturnValueKeyToBool(ret, "result", true)
 		SetReturnValueKeyToString(ret, "data", result.String())
+		SetReturnValueKeyToAny(ret, "signers", signers)
 	}
 }
 
@@ -336,6 +363,8 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
 	}
+
+	signers := []string{}
 	if pubkeyring != nil {
 		if err := result.SignatureError(); err != nil {
 			handle.ClearPrivateParams()
@@ -343,12 +372,26 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 			SetReturnValueKeyToString(ret, "error", err.Error())
 			return
 		}
+		for _, sig := range result.Signatures {
+			if sig == nil || sig.SignedBy == nil {
+				continue
+			}
+			signer, err := sig.SignedBy.GetArmoredPublicKey()
+			if err != nil {
+				SetReturnValueKeyToBool(ret, "result", false)
+				SetReturnValueKeyToString(ret, "error", err.Error())
+			}
+			signers = append(signers, signer)
+		}
 	}
 
 	handle.ClearPrivateParams()
 
 	SetReturnValueKeyToBool(ret, "result", true)
 	SetReturnValueKeyToString(ret, "data", result.String())
+	if pubkeyring != nil {
+		SetReturnValueKeyToAny(ret, "signers", signers)
+	}
 }
 
 //export Halon_hsl_register
@@ -564,4 +607,33 @@ func SetReturnValueKeyToBool(ret *C.HalonHSLValue, key string, value bool) {
 
 	C.HalonMTA_hsl_value_set(k, C.HALONMTA_HSL_TYPE_STRING, k_cs_up, 0)
 	C.HalonMTA_hsl_value_set(v, C.HALONMTA_HSL_TYPE_BOOLEAN, unsafe.Pointer(&value), 0)
+}
+
+func SetReturnValueKeyToAny(ret *C.HalonHSLValue, key string, val interface{}) error {
+	var k *C.HalonHSLValue
+	var v *C.HalonHSLValue
+	C.HalonMTA_hsl_value_array_add(ret, &k, &v)
+	k_cs := C.CString(key)
+	k_cs_up := unsafe.Pointer(k_cs)
+	defer C.free(k_cs_up)
+
+	C.HalonMTA_hsl_value_set(k, C.HALONMTA_HSL_TYPE_STRING, k_cs_up, 0)
+
+	x, err := json.Marshal(val)
+	if err != nil {
+		return err
+	}
+	y := C.CString(string(x))
+	defer C.free(unsafe.Pointer(y))
+	var z *C.char
+	if !(C.HalonMTA_hsl_value_from_json(v, y, &z, nil)) {
+		if z != nil {
+			err = errors.New(C.GoString(z))
+			C.free(unsafe.Pointer(z))
+		} else {
+			err = errors.New("failed to parse return value")
+		}
+		return err
+	}
+	return nil
 }

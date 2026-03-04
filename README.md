@@ -62,7 +62,7 @@ The following options are available in the **options** array.
 
 **Returns**
 
-It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the verified message is set.
+It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the verified message is set as well as a `signers` (array) containing the signers public keys.
 
 ### pgp_encrypt(message, pubkeyrings [, privkeyrings [, options]])
 
@@ -101,6 +101,7 @@ The following options are available in the **options** array.
 **Returns**
 
 It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the decrypted message is set.
+Additionally, if `true` and a `pubkeyrings` was provided a `signers` (array) containing the signers public keys is set.
 
 ## Examples
 
