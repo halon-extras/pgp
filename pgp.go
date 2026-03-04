@@ -324,7 +324,7 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 	}
 
 	var result *crypto.VerifiedDataResult
-	if pubkeyring != nil && opts.Signature != "" {
+	if opts.Signature != "" {
 		result, err = handle.DecryptDetached([]byte(message), []byte(opts.Signature), crypto.Armor)
 	} else {
 		result, err = handle.Decrypt([]byte(message), crypto.Armor)
