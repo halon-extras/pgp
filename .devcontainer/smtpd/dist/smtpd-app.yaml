@@ -83,7 +83,19 @@ scripting:
       $message = "Hello World";
 
       // Test 1 (Sign & Verify (Inline))
-      $expect = ["result"=>true,"data"=>"Hello World"];
+      $expect = ["result"=>true,"data"=>"Hello World","signers"=>[0=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeTNH0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bAs44BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAfCeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =cAcn
+      -----END PGP PUBLIC KEY BLOCK-----'']];
 
       $signed = pgp_sign($message, [$user1privkeyring]);
       $result = pgp_verify($signed["data"], [$user1pubkeyring]);
@@ -93,7 +105,19 @@ scripting:
       echo "Test 1 (Sign & Verify (Inline)):\t\t\tOK";
 
       // Test 2 (Sign & Verify (Detached))
-      $expect = ["result"=>true];
+      $expect = ["result"=>true,"signers"=>[0=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeTNH0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bAs44BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAfCeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =cAcn
+      -----END PGP PUBLIC KEY BLOCK-----'']];
 
       $signed = pgp_sign($message, [$user1privkeyring], ["detached" => true]);
       $result = pgp_verify($message, [$user1pubkeyring], ["signature" => $signed["data"]]);
@@ -113,7 +137,19 @@ scripting:
       echo "Test 3 (Encrypt & Decrypt):\t\t\t\tOK";
 
       // Test 4 (Sign + Encrypt & Decrypt + Verify)
-      $expect = ["result"=>true, "data"=>"Hello World"];
+      $expect = ["result"=>true, "data"=>"Hello World","signers"=>[0=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeTNH0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bAs44BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAfCeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =cAcn
+      -----END PGP PUBLIC KEY BLOCK-----'']];
 
       $encrypted = pgp_encrypt($message, [$user1pubkeyring], [$user1privkeyring], ["profile" => "default"]);
       $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], [$user1pubkeyring], ["profile" => "default"]);
@@ -123,7 +159,19 @@ scripting:
       echo "Test 4 (Sign + Encrypt & Decrypt + Verify):\t\tOK";
 
       // Test 5 (Sign + Encrypt & Decrypt + Verify (Detached))
-      $expect = ["result"=>true, "data"=>"Hello World"];
+      $expect = ["result"=>true, "data"=>"Hello World","signers"=>[0=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeTNH0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bAs44BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAfCeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =cAcn
+      -----END PGP PUBLIC KEY BLOCK-----'']];
 
       $encrypted = pgp_encrypt($message, [$user1pubkeyring], [$user1privkeyring], ["profile" => "default", "detached" => true]);
       $result = pgp_decrypt($encrypted["data"], [$user1privkeyring], [$user1pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
@@ -143,7 +191,31 @@ scripting:
       echo "Test 6 (Sign & Verify (No matching signature)):\t\tOK";
 
       // Test 7 (Encrypt & Decrypt (Multiple keys))
-      $expect = ["result"=>true, "data"=>"Hello World"];
+      $expect = ["result"=>true, "data"=>"Hello World","signers"=>[0=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHARYJKwYBBAHaRw8BAQdAI559Fx66zS8Qdam+UfCBHEf4viHg3OfrExp0
+      UbSZUrDNH0pvaG4gRG9lIDxqb2huLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEAg2aIjSEOatjvcA/iNTR4G1EC5pW4nISOilPpbsaSeKx8a1
+      3WEEKJe5akaOAPwIiVvAPIxyJGAM6M3A1UfwllUS/Mf3edGPcWmt3LrBDc44BGmE
+      RwESCisGAQQBl1UBBQEBB0CZ/4cGBlSqc57xrh8g1LQL1MotZI0oxR1TqkfduaYY
+      QwMBCAfCeAQYFgoAIBYhBFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsMAAoJ
+      EAg2aIjSEOatddMA/08joE5RPnY/RbRRzk6XGnZV2SMg2RII2b+1qQx/UkiYAQD/
+      lS0Hu650q0vFxx+itxOra4V7DYRXVeDPr+x8+vutCA==
+      =1G97
+      -----END PGP PUBLIC KEY BLOCK-----'',1=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeTNH0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bAs44BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAfCeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =cAcn
+      -----END PGP PUBLIC KEY BLOCK-----'']];
 
       $encrypted = pgp_encrypt($message, [$user1pubkeyring, $user2pubkeyring], [$user1privkeyring, $user2privkeyring], ["profile" => "default"]);
       $result = pgp_decrypt($encrypted["data"], [$user1privkeyring, $user2privkeyring], [$user1pubkeyring, $user2pubkeyring], ["profile" => "default"]);
@@ -162,7 +234,31 @@ scripting:
       echo "Test 8 (Sign with wrong type of key):\t\t\tOK";
 
       // Test 9 (Encrypt & Decrypt (Multiple keys in same ring))
-      $expect = ["result"=>true, "data"=>"Hello World"];
+      $expect = ["result"=>true, "data"=>"Hello World","signers"=>[0=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHMxYJKwYBBAHaRw8BAQdAeys1HObh1T/52MyemnXSSBKGcGroexC+HvTf
+      D+83WeTNH0phbmUgRG9lIDxqYW5lLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEPGl+Kn/XCQazm4A/A8hXrCwRnTdAh25IruJtH6SNnljznQX
+      M3JUg6PYx61MAQCo9yo50vjAUXE7YDLSpoF8imtXxaurEX/l2Yyvc84bAs44BGmE
+      RzMSCisGAQQBl1UBBQEBB0C3hYG+Scszkyw83DkUD9jKwFJoGl7GR0MT8ddAOd+y
+      XwMBCAfCeAQYFgoAIBYhBLLciu3Pt1+M33uRHPGl+Kn/XCQaBQJphEczAhsMAAoJ
+      EPGl+Kn/XCQaCRkA/3LIxSlDRZ638mCSsG8cLllEElfGOjTbnEvuJ8AA/w95AP0Z
+      MYLXiY/jaRdbAiK/F7X/cYcgtxYAA8hEptD3Cu3+Dg==
+      =cAcn
+      -----END PGP PUBLIC KEY BLOCK-----'',1=>''-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xjMEaYRHARYJKwYBBAHaRw8BAQdAI559Fx66zS8Qdam+UfCBHEf4viHg3OfrExp0
+      UbSZUrDNH0pvaG4gRG9lIDxqb2huLmRvZUBleGFtcGxlLmNvbT7CkwQTFgoAOxYh
+      BFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsDBQsJCAcCAiICBhUKCQgLAgQW
+      AgMBAh4HAheAAAoJEAg2aIjSEOatjvcA/iNTR4G1EC5pW4nISOilPpbsaSeKx8a1
+      3WEEKJe5akaOAPwIiVvAPIxyJGAM6M3A1UfwllUS/Mf3edGPcWmt3LrBDc44BGmE
+      RwESCisGAQQBl1UBBQEBB0CZ/4cGBlSqc57xrh8g1LQL1MotZI0oxR1TqkfduaYY
+      QwMBCAfCeAQYFgoAIBYhBFgvxHNUXH648RplPgg2aIjSEOatBQJphEcBAhsMAAoJ
+      EAg2aIjSEOatddMA/08joE5RPnY/RbRRzk6XGnZV2SMg2RII2b+1qQx/UkiYAQD/
+      lS0Hu650q0vFxx+itxOra4V7DYRXVeDPr+x8+vutCA==
+      =1G97
+      -----END PGP PUBLIC KEY BLOCK-----'']];
 
       $encrypted = pgp_encrypt($message, [$allpubkeyring], [$allprivkeyring], ["profile" => "default"]);
       $result = pgp_decrypt($encrypted["data"], [$allprivkeyring], [$allpubkeyring], ["profile" => "default"]);

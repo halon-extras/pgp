@@ -44,7 +44,7 @@ The following options are available in the **options** array.
 
 **Returns**
 
-It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the signed message is set.
+It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the signed message is set as well as a `algorithm` (string).
 
 ### pgp_verify(message, pubkeyrings [, options])
 

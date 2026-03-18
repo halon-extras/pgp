@@ -6,6 +6,7 @@ package main
 // #include <stdlib.h>
 import "C"
 import (
+	gocrypto "crypto"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -101,10 +102,18 @@ func pgp_sign(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonHSL
 		return
 	}
 
+	algorithm, err := AlgorithmToString(prof)
+	if err != nil {
+		SetReturnValueKeyToBool(ret, "result", false)
+		SetReturnValueKeyToString(ret, "error", err.Error())
+		return
+	}
+
 	handle.ClearPrivateParams()
 
 	SetReturnValueKeyToBool(ret, "result", true)
 	SetReturnValueKeyToString(ret, "data", string(result))
+	SetReturnValueKeyToString(ret, "algorithm", algorithm)
 }
 
 //export pgp_verify
@@ -453,6 +462,28 @@ func MergeKeyRings(keyrings []*crypto.KeyRing) (*crypto.KeyRing, error) {
 	}
 
 	return out, nil
+}
+
+func AlgorithmToString(prof *profile.Custom) (string, error) {
+	h := prof.SignConfig().DefaultHash
+	switch h {
+	case gocrypto.SHA1:
+		return "pgp-sha1", nil
+	case gocrypto.SHA224:
+		return "pgp-sha224", nil
+	case gocrypto.SHA256:
+		return "pgp-sha256", nil
+	case gocrypto.SHA384:
+		return "pgp-sha384", nil
+	case gocrypto.SHA512:
+		return "pgp-sha512", nil
+	case gocrypto.SHA3_256:
+		return "pgp-sha3-256", nil
+	case gocrypto.SHA3_512:
+		return "pgp-sha3-512", nil
+	default:
+		return "", fmt.Errorf("unsupported hash algorithm: %v", h)
+	}
 }
 
 func MatchProfile(name string) (*profile.Custom, error) {
