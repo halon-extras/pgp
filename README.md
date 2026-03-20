@@ -116,12 +116,12 @@ $message = "Hello World";
 // Sign & Verify (Inline)
 $signed = pgp_sign($message, [$privkeyring]);
 $result = pgp_verify($signed["data"], [$pubkeyring]);
-echo $result; // ["result"=>true,"data"=>"Hello World"]
+echo $result; // ["result"=>true,"data"=>"Hello World", "signers" => [0=>"-----BEGIN PGP PUBLIC KEY BLOCK..."]]
 
 // Sign & Verify (Detached)
 $signed = pgp_sign($message, [$privkeyring], ["detached" => true]);
 $result = pgp_verify($message, [$pubkeyring], ["signature" => $signed["data"]]);
-echo $result; // ["result"=>true]
+echo $result; // ["result"=>true, "signers" => [0=>"-----BEGIN PGP PUBLIC KEY BLOCK..."]]
 
 // Encrypt & Decrypt
 $encrypted = pgp_encrypt($message, [$pubkeyring], none, ["profile" => "default"]);
@@ -131,10 +131,10 @@ echo $result; // ["result"=>true,"data"=>"Hello World"]
 // Sign + Encrypt & Decrypt + Verify
 $encrypted = pgp_encrypt($message, [$pubkeyring], [$privkeyring], ["profile" => "default"]);
 $result = pgp_decrypt($encrypted["data"], [$privkeyring], [$pubkeyring], ["profile" => "default"]);
-echo $result; // ["result"=>true,"data"=>"Hello World"]
+echo $result; // ["result"=>true,"data"=>"Hello World", "signers" => [0=>"-----BEGIN PGP PUBLIC KEY BLOCK..."]]
 
 // Sign + Encrypt & Decrypt + Verify (Detached)
 $encrypted = pgp_encrypt($message, [$pubkeyring], [$privkeyring], ["profile" => "default", "detached" => true]);
 $result = pgp_decrypt($encrypted["data"], [$privkeyring], [$pubkeyring], ["profile" => "default", "signature" => $encrypted["signature"]]);
-echo $result; // ["result"=>true,"data"=>"Hello World"]
+echo $result; // ["result"=>true,"data"=>"Hello World", "signers" => [0=>"-----BEGIN PGP PUBLIC KEY BLOCK..."]]
 ```
