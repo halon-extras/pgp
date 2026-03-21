@@ -1,8 +1,6 @@
 module github.com/halon-extras/pgp
 
-go 1.23.0
-
-toolchain go1.23.4
+go 1.26.1
 
 require github.com/ProtonMail/gopenpgp/v3 v3.3.0
 
