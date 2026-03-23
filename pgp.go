@@ -497,7 +497,7 @@ func MatchProfile(name string) (*profile.Custom, error) {
 		case "rfc9580":
 			prof = profile.RFC9580()
 		default:
-			return nil, fmt.Errorf("invalid profile: " + name)
+			return nil, fmt.Errorf("invalid profile: %s", name)
 		}
 	}
 	return prof, nil
