@@ -38,31 +38,8 @@ echo "${SHA256} go1.26.1.${TARGETOS}-${TARGETARCH}.tar.gz" | sha256sum -c
 tar -C /usr/local -xzf go1.26.1.${TARGETOS}-${TARGETARCH}.tar.gz
 EOF
 RUN /usr/local/go/bin/go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
+RUN /usr/local/go/bin/go install github.com/google/go-licenses/v2@latest
 ENV PATH="$PATH:/usr/local/go/bin:/root/go/bin"
-
-RUN mkdir /licenses
-RUN cp /usr/local/go/LICENSE /licenses/LICENSE.go
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/ProtonMail/go-crypto/refs/heads/main/LICENSE \
-    && cp LICENSE /licenses/LICENSE.go-crypto
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/ProtonMail/gopenpgp/refs/heads/main/LICENSE \
-    && cp LICENSE /licenses/LICENSE.gopenpgp
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/cloudflare/circl/refs/heads/main/LICENSE \
-    && cp LICENSE /licenses/LICENSE.circl
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/davecgh/go-spew/refs/heads/master/LICENSE \
-    && cp LICENSE /licenses/LICENSE.go-spew
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/pmezard/go-difflib/refs/heads/master/LICENSE \
-    && cp LICENSE /licenses/LICENSE.go-difflib
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/stretchr/testify/refs/heads/master/LICENSE \
-    && cp LICENSE /licenses/LICENSE.testify
-RUN cd /tmp/halon \
-    && curl -O -L https://raw.githubusercontent.com/go-yaml/yaml/refs/tags/v3.0.1/LICENSE \
-    && cp LICENSE /licenses/LICENSE.go-yaml
 
 RUN rm -rf /tmp/halon
 
