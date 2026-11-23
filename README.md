@@ -59,6 +59,7 @@ The following options are available in the **options** array.
 
 - profile `string` - The profile to use (One of `default`, `rfc4880` or `rfc9580`)
 - signature `string` - The signature (In case of detached)
+- max_decompressed_size `number` - The maximum size in bytes of a compressed message after it is decompressed. If the message is larger, `result` is `false`. The default is `10485760` (10 MiB).
 
 **Returns**
 
@@ -97,6 +98,7 @@ The following options are available in the **options** array.
 
 - profile `string` - The profile to use (One of `default`, `rfc4880` or `rfc9580`)
 - signature `string` - The signature (In case of detached)
+- max_decompressed_size `number` - The maximum size in bytes of a compressed message after it is decompressed. If the message is larger, `result` is `false`. The default is `10485760` (10 MiB).
 
 **Returns**
 

@@ -23,8 +23,9 @@ type SignOptions struct {
 }
 
 type VerifyOptions struct {
-	Profile   string `json:"profile"`
-	Signature string `json:"signature"`
+	Profile             string `json:"profile"`
+	Signature           string `json:"signature"`
+	MaxDecompressedSize *int64 `json:"max_decompressed_size"`
 }
 
 type EncryptOptions struct {
@@ -33,9 +34,14 @@ type EncryptOptions struct {
 }
 
 type DecryptOptions struct {
-	Profile   string `json:"profile"`
-	Signature string `json:"signature"`
+	Profile             string `json:"profile"`
+	Signature           string `json:"signature"`
+	MaxDecompressedSize *int64 `json:"max_decompressed_size"`
 }
+
+// A compressed message (a few KB) can expand to many GB in memory, so limit
+// the decompressed size unless the max_decompressed_size option says otherwise
+const defaultMaxDecompressedSize int64 = 10 * 1024 * 1024 // 10 MiB
 
 func main() {}
 
@@ -151,9 +157,15 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 		return
 	}
 
+	maxDecompressedSize, err := MatchMaxDecompressedSize(opts.MaxDecompressedSize)
+	if err != nil {
+		SetException(hhc, err.Error())
+		return
+	}
+
 	pgp := crypto.PGPWithProfile(prof)
 
-	handle, err := pgp.Verify().VerificationKeys(pubkeyring).New()
+	handle, err := pgp.Verify().VerificationKeys(pubkeyring).MaxDecompressedMessageSize(maxDecompressedSize).New()
 	if err != nil {
 		SetReturnValueKeyToBool(ret, "result", false)
 		SetReturnValueKeyToString(ret, "error", err.Error())
@@ -345,9 +357,15 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		return
 	}
 
+	maxDecompressedSize, err := MatchMaxDecompressedSize(opts.MaxDecompressedSize)
+	if err != nil {
+		SetException(hhc, err.Error())
+		return
+	}
+
 	pgp := crypto.PGPWithProfile(prof)
 
-	builder := pgp.Decryption().DecryptionKeys(privkeyring)
+	builder := pgp.Decryption().DecryptionKeys(privkeyring).MaxDecompressedMessageSize(maxDecompressedSize)
 	if pubkeyring != nil {
 		builder = builder.VerificationKeys(pubkeyring)
 	}
@@ -501,6 +519,17 @@ func MatchProfile(name string) (*profile.Custom, error) {
 		}
 	}
 	return prof, nil
+}
+
+func MatchMaxDecompressedSize(size *int64) (int64, error) {
+	if size == nil {
+		return defaultMaxDecompressedSize, nil
+	}
+	// 0 would mean no limit in gopenpgp, so only allow positive values
+	if *size <= 0 {
+		return 0, fmt.Errorf("invalid max_decompressed_size: %d", *size)
+	}
+	return *size, nil
 }
 
 func SetException(hhc *C.HalonHSLContext, msg string) {
