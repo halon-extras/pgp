@@ -183,7 +183,7 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 		}
 		signers := []string{}
 		for _, sig := range result.Signatures {
-			if sig == nil || sig.SignedBy == nil {
+			if sig == nil || sig.SignedBy == nil || sig.SignatureError != nil {
 				continue
 			}
 			signer, err := sig.SignedBy.GetArmoredPublicKey()
@@ -210,7 +210,7 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 		}
 		signers := []string{}
 		for _, sig := range result.Signatures {
-			if sig == nil || sig.SignedBy == nil {
+			if sig == nil || sig.SignedBy == nil || sig.SignatureError != nil {
 				continue
 			}
 			signer, err := sig.SignedBy.GetArmoredPublicKey()
@@ -396,7 +396,7 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 			return
 		}
 		for _, sig := range result.Signatures {
-			if sig == nil || sig.SignedBy == nil {
+			if sig == nil || sig.SignedBy == nil || sig.SignatureError != nil {
 				continue
 			}
 			signer, err := sig.SignedBy.GetArmoredPublicKey()
