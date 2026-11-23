@@ -94,7 +94,6 @@ func pgp_sign(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonHSL
 
 	handle, err := builder.New()
 	if err != nil {
-		handle.ClearPrivateParams()
 		SetReturnValueKeyToBool(ret, "result", false)
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
@@ -371,7 +370,6 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 	}
 	handle, err := builder.New()
 	if err != nil {
-		handle.ClearPrivateParams()
 		SetReturnValueKeyToBool(ret, "result", false)
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
