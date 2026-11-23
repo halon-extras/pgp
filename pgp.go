@@ -71,6 +71,7 @@ func pgp_sign(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonHSL
 		SetException(hhc, err.Error())
 		return
 	}
+	defer ClearKeyRing(privkeyring)
 
 	options, err := GetArgumentAsJSON(args, 2, false)
 	if err != nil {
@@ -140,6 +141,7 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 		SetException(hhc, err.Error())
 		return
 	}
+	defer ClearKeyRing(pubkeyring)
 
 	options, err := GetArgumentAsJSON(args, 2, false)
 	if err != nil {
@@ -256,12 +258,14 @@ func pgp_encrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		SetException(hhc, err.Error())
 		return
 	}
+	defer ClearKeyRing(pubkeyring)
 
 	privkeyring, err := GetArgumentAsKeyRingsMerged(args, 2, false)
 	if err != nil {
 		SetException(hhc, err.Error())
 		return
 	}
+	defer ClearKeyRing(privkeyring)
 
 	options, err := GetArgumentAsJSON(args, 3, false)
 	if err != nil {
@@ -343,12 +347,14 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		SetException(hhc, err.Error())
 		return
 	}
+	defer ClearKeyRing(privkeyring)
 
 	pubkeyring, err := GetArgumentAsKeyRingsMerged(args, 2, false)
 	if err != nil {
 		SetException(hhc, err.Error())
 		return
 	}
+	defer ClearKeyRing(pubkeyring)
 
 	options, err := GetArgumentAsJSON(args, 3, false)
 	if err != nil {
@@ -447,6 +453,14 @@ func Halon_hsl_register(hhrc *C.HalonHSLRegisterContext) C.bool {
 	return true
 }
 
+// Keyrings may be nil (optional arguments) and may hold private keys even when
+// passed as public keys, so always wipe them when the function returns
+func ClearKeyRing(k *crypto.KeyRing) {
+	if k != nil {
+		k.ClearPrivateParams()
+	}
+}
+
 func MergeKeyRings(keyrings []*crypto.KeyRing) (*crypto.KeyRing, error) {
 	if len(keyrings) == 1 {
 		return keyrings[0], nil
@@ -462,6 +476,8 @@ func MergeKeyRings(keyrings []*crypto.KeyRing) (*crypto.KeyRing, error) {
 
 		fp := k.GetFingerprint()
 		if _, ok := seen[fp]; ok {
+			// Dropped duplicates are not part of the result, so wipe them here
+			k.ClearPrivateParams()
 			return nil
 		}
 		seen[fp] = struct{}{}
@@ -643,14 +659,23 @@ func GetArgumentAsKeyRingsMerged(args *C.HalonHSLArguments, pos uint64, required
 	}
 
 	z := []*crypto.KeyRing{}
+	// On error, wipe the keyrings already parsed (merged keyrings share them)
+	clearKeyRings := func() {
+		for _, r := range z {
+			r.ClearPrivateParams()
+		}
+	}
 	for _, v := range y {
 		b, err := armor.Unarmor(v)
 		if err != nil {
+			clearKeyRings()
 			return nil, err
 		}
 
 		k, err := crypto.NewKeyRingFromBinary(b)
+		clear(b)
 		if err != nil {
+			clearKeyRings()
 			return nil, err
 		}
 		z = append(z, k)
@@ -658,10 +683,12 @@ func GetArgumentAsKeyRingsMerged(args *C.HalonHSLArguments, pos uint64, required
 
 	k, err := MergeKeyRings(z)
 	if err != nil {
+		clearKeyRings()
 		return nil, err
 	}
 
 	if k == nil || k.CountEntities() == 0 {
+		clearKeyRings()
 		return nil, fmt.Errorf("no keys in keyring array at position %d", pos)
 	}
 
