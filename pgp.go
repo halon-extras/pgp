@@ -6,12 +6,17 @@ package main
 // #include <stdlib.h>
 import "C"
 import (
+	"bytes"
 	gocrypto "crypto"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"sort"
+	"strings"
 	"unsafe"
 
+	"github.com/ProtonMail/go-crypto/openpgp/packet"
 	"github.com/ProtonMail/gopenpgp/v3/armor"
 	"github.com/ProtonMail/gopenpgp/v3/crypto"
 	"github.com/ProtonMail/gopenpgp/v3/profile"
@@ -42,6 +47,9 @@ type DecryptOptions struct {
 // A compressed message (a few KB) can expand to many GB in memory, so limit
 // the decompressed size unless the max_decompressed_size option says otherwise
 const defaultMaxDecompressedSize int64 = 10 * 1024 * 1024 // 10 MiB
+
+// OpenPGP signature packet tag (RFC 9580, section 5.2)
+const packetTagSignature = 2
 
 func main() {}
 
@@ -107,7 +115,7 @@ func pgp_sign(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonHSL
 		return
 	}
 
-	algorithm, err := AlgorithmToString(prof)
+	algorithm, err := SignatureAlgorithms(result)
 	if err != nil {
 		SetReturnValueKeyToBool(ret, "result", false)
 		SetReturnValueKeyToString(ret, "error", err.Error())
@@ -491,8 +499,57 @@ func MergeKeyRings(keyrings []*crypto.KeyRing) (*crypto.KeyRing, error) {
 	return out, nil
 }
 
-func AlgorithmToString(prof *profile.Custom) (string, error) {
-	h := prof.SignConfig().DefaultHash
+// The hash is chosen per signing key (key preferences and key algorithm), so
+// it may differ from the profile default; read it from the signatures made
+func SignatureAlgorithms(armored []byte) (string, error) {
+	b, err := armor.Unarmor(string(armored))
+	if err != nil {
+		return "", err
+	}
+
+	algorithms := []string{}
+	seen := map[string]struct{}{}
+	r := packet.NewOpaqueReader(bytes.NewReader(b))
+	for {
+		op, err := r.Next()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return "", err
+		}
+		if op.Tag != packetTagSignature {
+			continue
+		}
+		p, err := op.Parse()
+		if err != nil {
+			return "", err
+		}
+		sig, ok := p.(*packet.Signature)
+		if !ok {
+			return "", errors.New("invalid signature packet")
+		}
+		algorithm, err := HashToAlgorithm(sig.Hash)
+		if err != nil {
+			return "", err
+		}
+		if _, ok := seen[algorithm]; ok {
+			continue
+		}
+		seen[algorithm] = struct{}{}
+		algorithms = append(algorithms, algorithm)
+	}
+
+	if len(algorithms) == 0 {
+		return "", errors.New("no signature found")
+	}
+
+	// Inline signatures are stored in reverse order, sort for a stable result
+	sort.Strings(algorithms)
+	return strings.Join(algorithms, ","), nil
+}
+
+func HashToAlgorithm(h gocrypto.Hash) (string, error) {
 	switch h {
 	case gocrypto.SHA1:
 		return "pgp-sha1", nil

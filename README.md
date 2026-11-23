@@ -44,7 +44,7 @@ The following options are available in the **options** array.
 
 **Returns**
 
-It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the signed message is set as well as a `algorithm` (string).
+It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the signed message is set as well as a `algorithm` (string). The `algorithm` is the hash actually used by the signatures (e.g. `pgp-sha256`), which depends on the profile and the signing keys. If multiple signing keys used different hashes, they are all listed, sorted and comma-separated (e.g. `pgp-sha256,pgp-sha512`).
 
 ### pgp_verify(message, pubkeyrings [, options])
 
