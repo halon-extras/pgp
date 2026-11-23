@@ -23,9 +23,9 @@ type SignOptions struct {
 }
 
 type VerifyOptions struct {
-	Profile             string `json:"profile"`
-	Signature           string `json:"signature"`
-	MaxDecompressedSize *int64 `json:"max_decompressed_size"`
+	Profile             string  `json:"profile"`
+	Signature           *string `json:"signature"`
+	MaxDecompressedSize *int64  `json:"max_decompressed_size"`
 }
 
 type EncryptOptions struct {
@@ -34,9 +34,9 @@ type EncryptOptions struct {
 }
 
 type DecryptOptions struct {
-	Profile             string `json:"profile"`
-	Signature           string `json:"signature"`
-	MaxDecompressedSize *int64 `json:"max_decompressed_size"`
+	Profile             string  `json:"profile"`
+	Signature           *string `json:"signature"`
+	MaxDecompressedSize *int64  `json:"max_decompressed_size"`
 }
 
 // A compressed message (a few KB) can expand to many GB in memory, so limit
@@ -160,6 +160,12 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 		return
 	}
 
+	signature, err := MatchSignature(opts.Signature)
+	if err != nil {
+		SetException(hhc, err.Error())
+		return
+	}
+
 	pgp := crypto.PGPWithProfile(prof)
 
 	handle, err := pgp.Verify().VerificationKeys(pubkeyring).MaxDecompressedMessageSize(maxDecompressedSize).New()
@@ -169,8 +175,8 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 		return
 	}
 
-	if opts.Signature != "" {
-		result, err := handle.VerifyDetached([]byte(message), []byte(opts.Signature), crypto.Armor)
+	if signature != nil {
+		result, err := handle.VerifyDetached([]byte(message), signature, crypto.Armor)
 		if err != nil {
 			SetReturnValueKeyToBool(ret, "result", false)
 			SetReturnValueKeyToString(ret, "error", err.Error())
@@ -363,6 +369,12 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		return
 	}
 
+	signature, err := MatchSignature(opts.Signature)
+	if err != nil {
+		SetException(hhc, err.Error())
+		return
+	}
+
 	pgp := crypto.PGPWithProfile(prof)
 
 	builder := pgp.Decryption().DecryptionKeys(privkeyring).MaxDecompressedMessageSize(maxDecompressedSize)
@@ -378,8 +390,8 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 	defer handle.ClearPrivateParams()
 
 	var result *crypto.VerifiedDataResult
-	if opts.Signature != "" {
-		result, err = handle.DecryptDetached([]byte(message), []byte(opts.Signature), crypto.Armor)
+	if signature != nil {
+		result, err = handle.DecryptDetached([]byte(message), signature, crypto.Armor)
 	} else {
 		result, err = handle.Decrypt([]byte(message), crypto.Armor)
 	}
@@ -527,6 +539,17 @@ func MatchMaxDecompressedSize(size *int64) (int64, error) {
 		return 0, fmt.Errorf("invalid max_decompressed_size: %d", *size)
 	}
 	return *size, nil
+}
+
+func MatchSignature(signature *string) ([]byte, error) {
+	if signature == nil {
+		return nil, nil
+	}
+	// An empty signature must not silently fall back to inline verification
+	if *signature == "" {
+		return nil, errors.New("invalid signature: empty")
+	}
+	return []byte(*signature), nil
 }
 
 func SetException(hhc *C.HalonHSLContext, msg string) {
