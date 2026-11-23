@@ -28,9 +28,11 @@ tdnf install halon-extras-pgp
 
 These functions needs to be [imported](https://docs.halon.io/hsl/structures.html#import) from the `extras://pgp` module path.
 
+All messages, signatures and keys must be ASCII-armored. Each keyring in an array is one armored block (which may contain multiple keys), and an empty keyring array will cause an exception to be thrown. Cleartext signed messages and passphrase-protected private keys are not supported.
+
 ### pgp_sign(message, privkeyrings [, options])
 
-PGP sign a message. Invalid or missing arguments will case an exception to be thrown.
+PGP sign a message. Invalid or missing arguments will cause an exception to be thrown.
 
 **Params**
 
@@ -48,7 +50,7 @@ It will return an associative array with a `result` (boolean). If `false`, a `er
 
 ### pgp_verify(message, pubkeyrings [, options])
 
-PGP verify a message. Invalid or missing arguments will case an exception to be thrown.
+PGP verify a message. Invalid or missing arguments will cause an exception to be thrown.
 
 **Params**
 
@@ -63,11 +65,13 @@ The following options are available in the **options** array.
 
 **Returns**
 
-It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the verified message is set as well as a `signers` (array) containing the signers public keys.
+It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the verified message is set (not for detached signatures) as well as a `signers` (array) containing the public keys of the valid signatures.
+
+The `result` is `true` if at least one signature is valid for the given keys. Any text outside the armored block is ignored, so always use the returned `data` rather than the input message.
 
 ### pgp_encrypt(message, pubkeyrings [, privkeyrings [, options]])
 
-PGP encrypt a message. Invalid or missing arguments will case an exception to be thrown.
+PGP encrypt a message. Invalid or missing arguments will cause an exception to be thrown.
 
 **Params**
 
@@ -82,22 +86,22 @@ The following options are available in the **options** array.
 
 **Returns**
 
-It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the encrypted message is set.
+It will return an associative array with a `result` (boolean). If `false`, a `error` (string) is set. If `true`, a `data` (string) containing the encrypted message is set. If `detached` was used, a `signature` (string) containing the encrypted detached signature is set as well.
 
 ### pgp_decrypt(message, privkeyrings [, pubkeyrings [, options]])
 
-PGP decrypt a message. Invalid or missing arguments will case an exception to be thrown.
+PGP decrypt a message. Invalid or missing arguments will cause an exception to be thrown.
 
 **Params**
 
 - message `string` - The message to decrypt (**Required**)
 - privkeyrings `array` - The private key/keyrings to use. If a keyring contains multiple keys they will all be used. (**Required**)
-- pubkeyrings `array` - The private key/keyrings to use (in case you also want to verify the message). If a keyring contains multiple keys they will all be used.
+- pubkeyrings `array` - The public key/keyrings to use (in case you also want to verify the message, which then must be signed). If a keyring contains multiple keys they will all be used.
 
 The following options are available in the **options** array.
 
 - profile `string` - The profile to use (One of `default`, `rfc4880` or `rfc9580`)
-- signature `string` - The signature (In case of detached)
+- signature `string` - The encrypted detached signature returned by `pgp_encrypt` (In case of detached). It is only verified if `pubkeyrings` is given.
 - max_decompressed_size `number` - The maximum size in bytes of a compressed message after it is decompressed. If the message is larger, `result` is `false`. The default is `10485760` (10 MiB).
 
 **Returns**
