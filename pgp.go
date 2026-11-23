@@ -190,6 +190,7 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 			if err != nil {
 				SetReturnValueKeyToBool(ret, "result", false)
 				SetReturnValueKeyToString(ret, "error", err.Error())
+				return
 			}
 			signers = append(signers, signer)
 		}
@@ -217,6 +218,7 @@ func pgp_verify(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonH
 			if err != nil {
 				SetReturnValueKeyToBool(ret, "result", false)
 				SetReturnValueKeyToString(ret, "error", err.Error())
+				return
 			}
 			signers = append(signers, signer)
 		}
@@ -403,6 +405,7 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 			if err != nil {
 				SetReturnValueKeyToBool(ret, "result", false)
 				SetReturnValueKeyToString(ret, "error", err.Error())
+				return
 			}
 			signers = append(signers, signer)
 		}
