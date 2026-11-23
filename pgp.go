@@ -543,7 +543,11 @@ func GetArgumentAsKeyRingsMerged(args *C.HalonHSLArguments, pos uint64, required
 		return nil, err
 	}
 
-	if x == "" {
+	// Omitted or none means no keyring was given (only allowed if optional)
+	if x == "" || x == "null" {
+		if required {
+			return nil, fmt.Errorf("missing argument at position %d", pos)
+		}
 		return nil, nil
 	}
 
@@ -551,6 +555,11 @@ func GetArgumentAsKeyRingsMerged(args *C.HalonHSLArguments, pos uint64, required
 	err = json.Unmarshal([]byte(x), &y)
 	if err != nil {
 		return nil, err
+	}
+
+	// An empty array must not silently disable signing or verification
+	if len(y) == 0 {
+		return nil, fmt.Errorf("empty keyring array at position %d", pos)
 	}
 
 	z := []*crypto.KeyRing{}
@@ -570,6 +579,10 @@ func GetArgumentAsKeyRingsMerged(args *C.HalonHSLArguments, pos uint64, required
 	k, err := MergeKeyRings(z)
 	if err != nil {
 		return nil, err
+	}
+
+	if k == nil || k.CountEntities() == 0 {
+		return nil, fmt.Errorf("no keys in keyring array at position %d", pos)
 	}
 
 	return k, nil
