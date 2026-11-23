@@ -98,10 +98,10 @@ func pgp_sign(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonHSL
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
 	}
+	defer handle.ClearPrivateParams()
 
 	result, err := handle.Sign(([]byte(message)), crypto.Armor)
 	if err != nil {
-		handle.ClearPrivateParams()
 		SetReturnValueKeyToBool(ret, "result", false)
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
@@ -113,8 +113,6 @@ func pgp_sign(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.HalonHSL
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
 	}
-
-	handle.ClearPrivateParams()
 
 	SetReturnValueKeyToBool(ret, "result", true)
 	SetReturnValueKeyToString(ret, "data", string(result))
@@ -285,6 +283,7 @@ func pgp_encrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
 	}
+	defer handle.ClearPrivateParams()
 
 	msg, err := handle.Encrypt([]byte(message))
 	if err != nil {
@@ -374,6 +373,7 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
 	}
+	defer handle.ClearPrivateParams()
 
 	var result *crypto.VerifiedDataResult
 	if opts.Signature != "" {
@@ -383,7 +383,6 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 	}
 
 	if err != nil {
-		handle.ClearPrivateParams()
 		SetReturnValueKeyToBool(ret, "result", false)
 		SetReturnValueKeyToString(ret, "error", err.Error())
 		return
@@ -392,7 +391,6 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 	signers := []string{}
 	if pubkeyring != nil {
 		if err := result.SignatureError(); err != nil {
-			handle.ClearPrivateParams()
 			SetReturnValueKeyToBool(ret, "result", false)
 			SetReturnValueKeyToString(ret, "error", err.Error())
 			return
@@ -409,8 +407,6 @@ func pgp_decrypt(hhc *C.HalonHSLContext, args *C.HalonHSLArguments, ret *C.Halon
 			signers = append(signers, signer)
 		}
 	}
-
-	handle.ClearPrivateParams()
 
 	SetReturnValueKeyToBool(ret, "result", true)
 	SetReturnValueKeyToString(ret, "data", result.String())
